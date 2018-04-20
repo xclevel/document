@@ -1,0 +1,49 @@
+{% extends 'web/index.html' %}
+{% load staticfiles %}
+{% block head_content %}
+<head>
+<meta charset="UTF-8">
+<title>江南墨卷</title>
+<meta name="keywords" content="个人博客模板古典系列之――江南墨卷" />
+<meta name="description" content="个人博客模板古典系列之――江南墨卷" />
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
+<link href="{% static 'css/main.css' %}" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+</head>
+{% endblock head_content %}
+{% block container_content %}
+<div class="container">
+  <div class="con_content">
+    <div class="about_box">
+      <h2 class="nh1"><span>您现在的位置是：<a href="{% url 'index_studyNote' %}" target="_blank">网站首页</a>>><a href="#" target="_blank">技术文章</a></span><b>技术文章</b></h2>
+      <div class="dtxw box">
+
+          {% for post in posts %}
+        <li>
+          <div class="dttext f_l">
+            <ul>
+              <h2><a href="{% url 'showSingleArticle' post.id 'studyNote'%}">{{ post.title }}</a></h2>
+              <p>{{ post.content|truncatechars:80|safe }}</p>
+              <span>{{ post.create_time }}</span>
+            </ul>
+          </div>
+            {% if 'http' in post.first_image.url %}
+                <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.id 'studyNote'%}"><img src="{{ post.first_image }}"></a></div>
+            {% else %}
+                <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.id 'studyNote'%}"><img src="{{ post.first_image.url }}"></a></div>
+            {% endif %}
+
+        </li>
+          {% endfor %}
+
+      </div>
+    {% include 'web/paginator.html' with post=posts %}
+{#      <div class="pagelist">页次：1/1 每页25 总数10<a href="/">首页</a><a href="/">上一页</a><a href="/">下一页</a><a href="/">尾页</a></div>#}
+    </div>
+  </div>
+  <div class="blank"></div>
+  <!-- container代码 结束 -->
+{% endblock container_content %}

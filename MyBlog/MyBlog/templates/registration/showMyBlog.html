@@ -1,0 +1,19 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+    {% include 'registration/../search/search.html' %} <a href="{% url 'logout' %}">Logout</a>
+    {% for blog in posts %}
+        <li>
+            title:{{ blog.title }}
+            <hr/>
+            content:{{ blog.content|truncatechars:100}}<br/>
+            create_time:{{ blog.create_time }}<br/>
+            update_time:{{ blog.update_time }}<br/>
+         </li>
+        <a href="{% url 'update_MyBlog' blog.id %}">Update</a>
+        <a href="{% url 'del_Myblog' blog.id %}">Delete</a>
+        <hr/>
+    {% endfor %}
+
+   {% include 'registration/paginator.html' with post=posts %}
+
+{% endblock content %}

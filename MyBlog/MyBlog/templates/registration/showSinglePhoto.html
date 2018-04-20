@@ -1,0 +1,12 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+     <a href="{% url 'showPhotos' %}">返回</a>
+    <div align="center">
+    {% for photo in posts %}
+        <img src="{{ photo.imge.url}}">
+    {% endfor %}
+    <br/>
+        {% include 'registration/paginator.html' with post=posts %}
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,175 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+    {% block head_content %}
+<head>
+<meta charset="UTF-8">
+<title>江南墨卷</title>
+<meta name="keywords" content="个人博客模板古典系列之――江南墨卷" />
+<meta name="description" content="个人博客模板古典系列之――江南墨卷" />
+<link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'css/index.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+</head>
+        {% endblock head_content %}
+<body>
+{#<div class="topnav">#}
+{#<a href="http://www.yangqq.com/download/div/2017-07-16/785.html" target="_blank">个人博客模板古典系列之――江南墨卷</a>――作品来自<a href="http://www.yangqq.com" target="_blank">杨青个人博客网站</a>#}
+{#</div>#}
+<div id="wrapper">
+  <header>
+    <div class="headtop"></div>
+    <div class="contenttop">
+      <div class="logo f_l">徐成个人博客</div>
+      <div class="search f_r">
+        <form action="{% url 'search_all' %}" method="get" name="searchform" id="searchform">
+          <input name="q" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+{#          <input name="show" value="title" type="hidden">#}
+{#          <input name="tempid" value="1" type="hidden">#}
+          <input name="tbname" value="news" type="hidden">
+          <input name="Submit" class="input_submit" value="搜索" type="submit">
+        </form>
+      </div>
+      <div class="blank"></div>
+      <nav>
+        <div  class="navigation">
+          <ul class="menu">
+            <li><a href="{% url 'index_studyNote' %}">网站首页</a></li>
+            <li><a href="{% url 'introduction' %}">关于我</a>
+              <ul>
+                <li><a href="{% url 'introduction' %}">个人简介</a></li>
+                <li><a href="{% url 'showMyPhoto' %}">个人相册</a></li>
+              </ul>
+            </li>
+            <li><a href="{% url 'showDiary' %}">我的日记</a>
+{#              <ul>#}
+{#                <li><a href="newslistpic.html">个人日记</a></li>#}
+{#                <li><a href="newslistpic.html">学习笔记</a></li>#}
+{#              </ul>#}
+            </li>
+            <li><a href="{% url 'showTechnicalArticles' %}">学无止境</a> </li>
+            <li><a href="#">给我留言</a> </li>
+          </ul>
+        </div>
+      </nav>
+      <SCRIPT type=text/javascript>
+	// Navigation Menu
+	$(function() {
+		$(".menu ul").css({display: "none"}); // Opera Fix
+		$(".menu li").hover(function(){
+			$(this).find('ul:first').css({visibility: "visible",display: "none"}).slideDown("normal");
+		},function(){
+			$(this).find('ul:first').css({visibility: "hidden"});
+		});
+	});
+</SCRIPT> 
+    </div>
+  </header>
+{% block container_content %}
+  <div class="jztop"></div>
+  <div class="container">
+    <div class="bloglist f_l">
+
+        {% for studyNote in studyNotes %}
+
+            {% if forloop.counter <= 5 %}
+
+                <h3><a href="{% url 'showSingleArticle' article_id=studyNote.id obj='studyNote'%}">【{{ studyNote.title }}】</a></h3>
+                {% if 'uploads' in studyNote.first_image.url %}
+                    <figure><img src="{{ studyNote.first_image.url }}"></figure>
+                {% else %}
+                    <figure><img src="{{ studyNote.first_image }}"></figure>
+                {% endif %}
+              <ul>
+                <p> {{ studyNote.content|truncatechars:80|safe }}</p>
+                <a title="【心路历程】请不要在设计这条路上徘徊啦" href="{% url 'showSingleArticle' article_id=studyNote.id obj='studyNote' %}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
+              </ul>
+                <p class="dateview"><span>{{ studyNote.create_time }}</span><span>分享者:徐成</span><span>个人博客：[<a href="/jstt/bj/">学无止境</a>]</span></p>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+    <div class="r_box f_r">
+      <div class="tit01">
+        <h3 class="tit">关注我</h3>
+        <div class="gzwm">
+{#          <ul>#}
+{#            <li><a class="email" href="#" target="_blank">我的电话</a></li>#}
+{#            <li><a class="qq" href="#mailto:admin@admin.com" target="_blank">我的邮箱</a></li>#}
+{#            <li><a class="tel" href="#" target="_blank">我的QQ</a></li>#}
+{#            <li><a class="prize" href="#">个人奖项</a></li>#}
+{#          </ul>#}
+            {% for user_profile in user_profiles %}
+            <p><img src="{{ user_profile.photo.url }}" width="70px" height="70px" style="float: left"></p>
+            <div style="margin-left: 100px">
+                <p style="font-style: italic;font-size:15px ">姓名:{{ user.username }}</p><br/>
+                <p style="font-style: italic;font-size:15px ">电话：{{ user_profile.cellphone }}</p><br/>
+                <p style="font-style: italic;font-size:15px ">邮箱：{{ user.email }}</p>
+
+            </div>
+            {% endfor %}
+
+        </div>
+      </div>
+      <!--tit01 end-->
+      
+      <div class="tuwen">
+        <h3 class="tit">文章推荐</h3>
+        <ul>
+            {% for studyNote in studyNotePublished %}
+                {% if studyNote.status == 'published'%}
+                    {% if forloop.counter <= 7 %}
+                        {% if 'uploads' in studyNote.first_image.url %}
+                             <li><a href="{% url 'showSingleArticle' studyNote.id 'studyNote'%}"><img src="{{ studyNote.first_image.url }}"><b>{{ studyNote.title|truncatechars:20 }}</b></a>
+                                <p><span class="tutime">{{ studyNote.create_time }}</span></p>
+                              </li>
+                            {% else %}
+                                 <li><a href="{% url 'showSingleArticle' studyNote.id 'studyNote'%}"><img src="{{ studyNote.first_image }}"><b>{{ studyNote.title|truncatechars:20 }}</b></a>
+                                    <p><span class="tutime">{{ studyNote.create_time }}</span></p>
+                                  </li>
+                            {% endif %}
+
+                        {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+      </div>
+      <div class="ph">
+        <h3 class="tit">点击排行</h3>
+        <ul class="rank">
+            {% for studyNote in click_rank %}
+                {% if forloop.counter <= 12 %}
+                    {% if studyNote in myBlog %}
+                        <li><a href="{% url 'showSingleArticle' studyNote.id 'ckeditorBlog' %}" class="rank_a"><p><b>{{ studyNote.title }}:</b>{{studyNote.content|truncatechars:15|safe }}</p></a></li>
+                    {% endif %}
+                    {% if studyNote in studyNotes %}
+                        <li><a href="{% url 'showSingleArticle' studyNote.id 'studyNote' %}" class="rank_a"><p><b>{{ studyNote.title }}:</b>{{studyNote.content|truncatechars:15|safe }}</p></a></li>
+                    {% endif %}
+
+                {% endif %}
+            {% endfor %}
+        </ul>
+      </div>
+      <div class="ad"> <img src="{% static 'images/03.jpg' %}"> </div>
+    </div>
+  </div>
+
+  <!-- container代码 结束 -->
+  <div class="jzend"></div>
+{% endblock container_content %}
+  <footer>
+    <div class="footer">
+      <div class="f_l">
+        <p>All Rights Reserved 版权所有：<a href="http://www.yangqq.com">杨青个人博客</a> 备案号：蜀ICP备00000000号</p>
+      </div>
+      <div class="f_r textr">
+        <p>Design by DanceSmile</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

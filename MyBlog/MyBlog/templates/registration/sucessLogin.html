@@ -1,0 +1,47 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+    <div>
+        <p style="float:left">Welcome to your dashboard.</p>
+        <a href="{% url 'logout' %}" style="float:right">Logout</a>
+    </div>
+    <br/>
+    <div style="clear:both"></div>
+    <div style="float: left">
+            <p >个人博客管理：</p>
+        <li>
+            <a href="{% url 'ckeditorForm' %}">上传个人博客</a>
+        </li>
+        <li>
+            <a href="{% url 'showMyBlog' %}">查看个人博客</a>
+        </li>
+        <hr/>
+        个人相册管理:
+        <li>
+            <a href="{% url 'addPhotos' %}">上传个人照片</a>
+        </li>
+        <li>
+            <a href="{% url 'showPhotos' %}">展示照片</a>
+        </li>
+        <hr/>
+        用户评论：
+        <hr/>
+        技术文章：
+        <li>
+            <a href="{% url 'uploadTechnicalArticle' %}">上传技术文章</a>
+        </li>
+        <li>
+            <a href="{% url 'showTechnicalArticle' tag_sulg='None' %}">查看技术文章</a>
+        </li>
+        <hr/>
+        个人笔记
+        <li>
+            <a href="{% url 'addStudyNotes' %}">添加个人笔记</a>
+        </li>
+         <li>
+            <a href="{% url 'showStudyNotes' %}">查看个人笔记</a>
+        </li>
+        <hr/>
+        <a href="{% url 'index_studyNote' %}">test</a>
+    </div>
+
+{% endblock content %}

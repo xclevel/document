@@ -1,0 +1,12 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+    {% include 'search/search.html' %}
+    {% for studyNote in studyNotes %}
+        title:{{ studyNote.title }}<br/>
+        content:{{ studyNote.content }}<br/>
+        status:{{ studyNote.status }}<br/>
+        create_time:{{ studyNote.create_time }}<br/>
+        update_time:{{ studyNote.update_time }}<hr/>
+    {% endfor %}
+    {% include 'registration/paginator.html' with post=posts %}
+{% endblock content %}

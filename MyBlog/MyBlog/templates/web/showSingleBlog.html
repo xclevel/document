@@ -1,0 +1,46 @@
+{% extends 'web/index.html' %}
+{% load staticfiles %}
+{% block head_content %}
+<head>
+<meta charset="UTF-8">
+<title>江南墨卷</title>
+<meta name="keywords" content="个人博客模板古典系列之——江南墨卷" />
+<meta name="description" content="个人博客模板古典系列之——江南墨卷" />
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
+<link href="{% static 'css/main.css' %}" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+</head>
+{% endblock head_content %}
+{% block container_content %}
+  <div class="container">
+    <div class="con_content">
+      <div class="about_box">
+        <h2 class="nh1"><span>您现在的位置是：<a href="{% url 'index_studyNote' %}" target="_blank">网站首页</a>>><a href="#" target="_blank">信息浏览</a></span><b>内容展示</b></h2>
+        <div class="f_box">
+            {% for u in posts %}
+          <p class="a_title">{{ u.title }}</p>
+          <p class="p_title"></p>
+          <p class="box_p"><span>发布时间：{{ u.create_time }}</span><span>分享者：徐成</span><span>更新时间：{{ u.update_time }}</span><span>点击：{{ u.click_counts }}</span></p>
+          <!-- 可用于内容模板 -->
+        </div>
+        <ul class="about_content">
+          <p> {{ u.content|safe }}</p>
+        </ul>
+            {% endfor %}
+      {% include 'web/paginator.html' with post_article=posts after_posts=after_posts before_posts=before_posts %}
+{#        <div class="nextinfos">#}
+{#      <p>上一篇：<a href="/">区中医医院开展志愿服务活动</a></p>#}
+{#      <p>下一篇：<a href="/">广安区批准“单独两孩”500例</a></p>#}
+{#    </div>#}
+        <!-- 可用于内容模板 -->
+
+        <!-- container代码 结束 -->
+      </div>
+    </div>
+    <div class="blank"></div>
+  </div>
+  <!-- container代码 结束 -->
+{% endblock container_content %}

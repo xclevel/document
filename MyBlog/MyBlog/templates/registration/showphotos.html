@@ -1,0 +1,13 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+    <a href="{% url 'sucessLogin' %}">返回</a>
+        <div style="overflow: hidden"></div>
+    {% for photo in posts %}
+        <a href="{% url 'showSinglePhoto' photo.id %}"><img src="{{ photo.imge.url }}" width="155px" height="124px" class="myphotos"></a>
+        {% if forloop.counter|divisibleby:4 %}
+            <br/>
+        {% endif %}
+    {% endfor %}
+    <hr/>
+    {% include 'registration/paginator.html' with post=posts %}
+{% endblock content%}

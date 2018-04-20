@@ -1,0 +1,23 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+{#    {% for page1 in post.paginator.page_range %}#}
+{#        {% if page1 <= 2  %}#}
+{#            <a href="?page={{ page1 }}">{{ page1 }}</a>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+
+    <div class="pagelist">
+            页次：{{ post.number }}/{{ post.paginator.num_pages }}
+            <a href="?page=1">首页</a>
+           {% if post.has_previous %}
+            <a href="?page={{ post.previous_page_number }}">上一页</a>
+            {% endif %}
+        {% if post.has_next %}
+        <a href="?page={{ post.next_page_number }}">下一页</a>
+        {% endif %}
+        <a href="?page={{ post.paginator.num_pages }}">尾页</a>
+    </div>
+
+{% endblock content %}
+
+{#<div class="pagelist">页次：1/1 每页25 总数10<a href="/">首页</a><a href="/">上一页</a><a href="/">下一页</a><a href="/">尾页</a></div>#}

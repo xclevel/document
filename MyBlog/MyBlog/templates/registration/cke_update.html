@@ -1,0 +1,10 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+    {% for blog_id in blog %}
+    <form action="{% url 'update_MyBlog' blog_id.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="提交">
+    </form>
+    {% endfor %}
+{% endblock content %}
