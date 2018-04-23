@@ -4,7 +4,7 @@
     {% block head_content %}
 <head>
 <meta charset="UTF-8">
-<title>江南墨卷</title>
+<title>徐成个人博客</title>
 <meta name="keywords" content="个人博客模板古典系列之――江南墨卷" />
 <meta name="description" content="个人博客模板古典系列之――江南墨卷" />
 <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet">
@@ -26,7 +26,7 @@
           <input name="q" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
 {#          <input name="show" value="title" type="hidden">#}
 {#          <input name="tempid" value="1" type="hidden">#}
-          <input name="tbname" value="news" type="hidden">
+{#          <input name="tbname" value="news" type="hidden">#}
           <input name="Submit" class="input_submit" value="搜索" type="submit">
         </form>
       </div>
@@ -72,7 +72,7 @@
 
         {% for studyNote in studyNotes %}
 
-            {% if forloop.counter <= 5 %}
+            {% if forloop.counter <= 6 %}
 
                 <h3><a href="{% url 'showSingleArticle' article_id=studyNote.id obj='studyNote'%}">【{{ studyNote.title }}】</a></h3>
                 {% if 'uploads' in studyNote.first_image.url %}
@@ -84,7 +84,7 @@
                 <p> {{ studyNote.content|truncatechars:80|safe }}</p>
                 <a title="【心路历程】请不要在设计这条路上徘徊啦" href="{% url 'showSingleArticle' article_id=studyNote.id obj='studyNote' %}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
               </ul>
-                <p class="dateview"><span>{{ studyNote.create_time }}</span><span>分享者:徐成</span><span>个人博客：[<a href="/jstt/bj/">学无止境</a>]</span></p>
+                <p class="dateview"><span>{{ studyNote.create_time }}</span><span>分享者:徐成</span><span>个人博客：[<a href="{% url 'showTechnicalArticles' %}">学无止境</a>]</span></p>
 
             {% endif %}
 

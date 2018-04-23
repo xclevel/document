@@ -6,7 +6,7 @@ from .views import ckeForm,showMyBlog,update_MyBlog,del_Myblog,search_blog
 from .views import addPhotos,showPhotos,showSinglePhoto
 from .views import uploadTechnicalArticle,showTechnicalArticle
 from .views import sucessLogin
-from .views import index_studyNote,introductionMe,showMyPhoto,showDiary,showTechnicalArticles,showSingleArticle,search_all
+from .views import index_studyNote,introductionMe,showMyPhoto,showDiary,showTechnicalArticles,showSingleArticle,search_all,show_searchResult,showSinglePhoto_index
 from .views import test
 
 
@@ -34,6 +34,8 @@ urlpatterns = [
     url(r'^technical.html',showTechnicalArticles,name='showTechnicalArticles'),
     url(r'^showArticle/(?P<article_id>\d+)/(?P<obj>\w+)',showSingleArticle,name='showSingleArticle'),
     url(r'searchResult/',search_all,name='search_all'),
+    url(r'^show_searchResult/(?P<obj>)/',show_searchResult,name='show_searchResult'),
+    url(r'^mySinglePhoto/(?P<photo_id>\d+)/',showSinglePhoto_index,name='showSinglePhoto_index'),
 ]
 # (?P<user_id>\d+)/
 

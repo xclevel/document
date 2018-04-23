@@ -31,9 +31,27 @@
             {% if post_article.has_next %}
                 <p>下一篇：<a href="?page={{ post_article.next_page_number }}">{% for afterPage in after_posts %}{{ afterPage.title }}{% endfor %}</a></p>
             {% endif %}
-
     </div>
     {% endif %}
+
+    {% if search_post %}
+            页次：{{ search_post.number }}/{{ search_post.paginator.num_pages }}
+            <a href="?q={{ rs }}&amp;page=1">首页</a>
+           {% if search_post.has_previous %}
+            <a href="?q={{ rs }}&amp;page={{ search_post.previous_page_number }}">上一页</a>
+            {% endif %}
+        {% if search_post.has_next %}
+        <a href="?q={{ rs }}&amp;page={{ search_post.next_page_number }}">下一页</a>
+        {% endif %}
+        <a href="?q={{ rs }}&amp;page={{ search_post.paginator.num_pages }}">尾页</a>
+
+        <form method="get" class="lispic_form">
+            <input type="hidden" name="q" value="{{ rs }}">
+            <input type="text" name='page' style="width:50px;">
+            <input type="submit" value="查询">
+        </form>
+    {% endif %}
+
     </div>
 
 

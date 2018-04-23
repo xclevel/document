@@ -18,13 +18,31 @@
 <div class="container">
   <div class="con_content">
     <div class="about_box">
-      <h2 class="nh1"><span>您现在的位置是：<a href="{% url 'index_studyNote' %}" target="_blank">网站首页</a>>><a href="#" target="_blank">个人日记</a></span><b>个人日记</b></h2>
+      <h2 class="nh1"><span>您现在的位置是：<a href="{% url 'index_studyNote' %}" target="_blank">网站首页</a>>><a href="#" target="_blank"></a></span><b>搜索结果</b></h2>
       <div class="dtxw box">
 
           {% for post in posts %}
         <li>
+        {% if post.object in studyNotes %}
           <div class="dttext f_l">
             <ul>
+{#                {% if  %}#}
+              <h2><a href="{% url 'showSingleArticle' post.object.id 'studyNote'%}">{{ post.object.title }}</a></h2>
+              <p>{{ post.object.content|truncatechars:80|safe }}</p>
+              <span>{{ post.object.create_time }}</span>
+            </ul>
+          </div>
+            {% if 'http' in post.object.first_image.url %}
+                  <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.object.id 'studyNote'%}"><img src="{{ post.object.first_image }}"></a></div>
+            {% else %}
+                <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.object.id 'studyNote'%}"><img src="{{ post.object.first_image.url }}"></a></div>
+
+            {% endif %}
+        {% endif %}
+        {% if post.object in ckeditorBlogs %}
+          <div class="dttext f_l">
+            <ul>
+{#                {% if  %}#}
               <h2><a href="{% url 'showSingleArticle' post.object.id 'ckeditorBlog'%}">{{ post.object.title }}</a></h2>
               <p>{{ post.object.content|truncatechars:80|safe }}</p>
               <span>{{ post.object.create_time }}</span>
@@ -33,15 +51,18 @@
             {% if 'http' in post.object.first_image.url %}
                   <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.object.id 'ckeditorBlog'%}"><img src="{{ post.object.first_image }}"></a></div>
             {% else %}
-                <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.object.id 'ckeditorBlog' %}"><img src="{{ post.object.first_image.url }}"></a></div>
+                <div class="xwpic f_r"><a href="{% url 'showSingleArticle' post.object.id 'ckeditorBlog'%}"><img src="{{ post.object.first_image.url }}"></a></div>
 
             {% endif %}
+        {% endif %}
+
 
         </li>
+
           {% endfor %}
 
       </div>
-    {% include 'web/paginator.html' with post=posts after_posts=after_posts before_posts=before_posts %}
+    {% include 'web/paginator.html' with search_post=posts rs=rs%}
 {#      <div class="pagelist">页次：1/1 每页25 总数10<a href="/">首页</a><a href="/">上一页</a><a href="/">下一页</a><a href="/">尾页</a></div>#}
     </div>
   </div>

@@ -44,10 +44,8 @@ def ckeForm(request):
                 image = re.findall(power, myblog_content)
                 if len(image) >= 1:
                     image = image[0][5:-2]
-                    print(image)
                     if image[0:7] == '/media/':
                         image = image[6:]
-                        print(image)
                 else:
                     image = '/uploads/xucheng.jpg'
                 ckeditorBlog.objects.filter(id=myblog_image.id).update(first_image=image)
@@ -61,7 +59,6 @@ def ckeForm(request):
 def showMyBlog(request):
     MyBlog = ckeditorBlog.objects.all()
     object_list = MyBlog.filter(user_id=1).order_by('update_time')
-    print(object_list)
     #分页
     paginator = Paginator(object_list,5)
     page = request.GET.get('page')
@@ -287,7 +284,6 @@ def index_studyNote(request):
         for j in range(len(click_rank)-1-i):
             if click_rank[j].click_counts < click_rank[j+1].click_counts:
                 click_rank[j],click_rank[j+1] = click_rank[j+1],click_rank[j]
-    print(click_rank)
     # count = 0
     # rs = []
     # for studyNote_clickCount in studyNote_clickCounts:
@@ -331,6 +327,25 @@ def showMyPhoto(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     return render(request,'web/listpic.html',{'posts':posts,'myphotos':myphotos})
+
+#展示单独的照片
+def showSinglePhoto_index(request,photo_id):
+    photos = MyPhoto.objects.filter(id=photo_id)
+    myPhotos = MyPhoto.objects.filter(user_id=request.user.id).order_by('create_time')
+    counts = 0
+    for myPhoto in myPhotos:
+        counts += 1
+        if myPhoto.id == int(photo_id):
+            break
+    paginator= Paginator(myPhotos,1)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(counts)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render(request,'web/showSinglePhoto.html',{'photos':photos,'posts':posts})
 
 #展示个人日志
 def showDiary(request):
@@ -416,13 +431,28 @@ def showSingleArticle(request,article_id,obj):
 
 #全文搜索@search
 def search_all(request):
-    rs = request.GET['q']
+    rs = request.GET.get('q',False)
     form = SearchForm(request.GET)
-    posts = form.search()
+    searchResult = form.search()
+    # print(searchResult.query)
     # for i in posts:
     #     print(i.object.title)
-    return render(request, 'search/search_result.html', {'posts':posts})
+    paginator = Paginator(searchResult,6)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    studyNotes = studyNote.objects.all()
+    ckeditorBlogs = ckeditorBlog.objects.all()
+    return render(request, 'search/search_result.html', {'posts':posts,'rs':rs,
+                                                         'studyNotes':studyNotes,'ckeditorBlogs':ckeditorBlogs})
 
+#全文搜索结果展示
+def show_searchResult(reuqest,obj):
+    pass
 
 
 

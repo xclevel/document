@@ -149,10 +149,15 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 #配置搜索引擎whoosh
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        # 'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
         'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
     },
 }
+#索引自动更新
+HAYSTACK_SIGNAL_PROCESSOR = "haystack.signals.RealtimeSignalProcesso"
+
+
 # 显示搜索每页显示的数目
 HAYSTACK_SEARCH_RESULTS_PER_PAGE=5
 # 每次数据库更新后都需要更新索引
